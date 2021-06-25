@@ -1,7 +1,7 @@
 import cv2
 from utils import preenche, redimensiona, segmenta, expandeSabre, trataRuido, erodeSabre
 
-img = cv2.imread("jedi.jpeg")
+img = cv2.imread("jedidog.jpeg")
 
 imgOriginal = img.copy()
 img = redimensiona(img, 80)
@@ -31,12 +31,13 @@ imgfinal[:,:,1] = cv2.add(canal1, imgAumentada)
 imgfinal[:,:,2] = cv2.add(canal2, imgAumentada)
 
 # Cria o efeito de luz colorida no sabre
-imgBorrada = cv2.GaussianBlur(imgAumentada, (33,  33), 0)
-imgBorradaExpandida = expandeSabre(imgBorrada, 8)
 
-imgfinal[:,:,0] = cv2.add(canal0, imgBorradaExpandida)
-# imgfinal[:,:,1] = cv2.add(canal1, imgBorradaExpandida)
-imgfinal[:,:,2] = cv2.add(canal2, imgBorradaExpandida)
+for i in range(5): 
+  imgBorrada = cv2.GaussianBlur(imgAumentada, (37,  37), 0)
+  imgBorradaExpandida = expandeSabre(imgBorrada, 8)
+  imgfinal[:,:,0] = cv2.add(canal0, cv2.subtract(imgBorradaExpandida, 40))
+  imgfinal[:,:,1] = cv2.add(canal1, cv2.subtract(imgBorradaExpandida, 150))
+  imgfinal[:,:,2] = cv2.add(canal2, cv2.subtract(imgBorradaExpandida, 80))
 
 # Printa imagens
 cv2.imshow("Original", imgOriginal)	
