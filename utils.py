@@ -21,10 +21,10 @@ def redimensiona(img, escala=40):
 def segmenta(img):
     imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-    tomClaro = np.array([60, 90, 90])
-    tomEscuro = np.array([100, 220, 250])
+    limInf = np.array([60, 60, 55])
+    limSup = np.array([130, 255, 255])
 
-    imgSegmentada =	cv2.inRange(imgHSV, tomClaro, tomEscuro)
+    imgSegmentada =	cv2.inRange(imgHSV, limInf, limSup)
 
     return imgSegmentada
 
@@ -44,3 +44,24 @@ def erodeSabre(img):
     elementoEstruturante = cv2.getStructuringElement(cv2.MORPH_CROSS, (2, 2))
     img =	cv2.erode(img, elementoEstruturante, iterations = 1)
     return img
+
+def write(filename, frames, fps, show=False):
+        fps = max(1, fps)
+        out = None
+
+        try:
+            for image in frames:
+                frame = cv2.imread(image)
+                if show:
+                    cv2.imshow('video', frame)
+
+                if not out:
+                    height, width, channels = frame.shape
+                    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+                    out = cv2.VideoWriter(filename, fourcc, 20, (width, height))
+
+                out.write(frame)
+
+        finally:
+            out and out.release()
+            cv2.destroyAllWindows() 
