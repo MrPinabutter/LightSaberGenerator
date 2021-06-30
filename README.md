@@ -1,7 +1,9 @@
 # LightSaberGenerator
 Programa de processamento de imagens para substituição de vassoura por um sabre de luz na cor roxo-azulado
-##Obs
-Para execução do programa é necessario ter instalado python3, OpenCV e numpy
+## Libs necessárias para uso
+- Python3 
+- OpenCV  
+- Numpy
 
 ## Execução
 <code>python main.py</code>
